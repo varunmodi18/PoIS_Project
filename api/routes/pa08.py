@@ -23,7 +23,7 @@ def dlp_hash(req: DLPHashRequest):
         params = h.get_params()
         return {
             "digest_hex": digest.hex(),
-            "params": {"p": str(params['p']), "g": str(params['g']), "q": str(params['q'])}
+            "params": {"p": str(params.p), "g": str(params.g), "q": str(params.q)}
         }
     except Exception as e:
         raise HTTPException(400, str(e))

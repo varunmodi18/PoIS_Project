@@ -34,10 +34,10 @@ def hastad_attack(req: HastadRequest):
         # Serialize big ints as strings
         recipients = []
         for r in result.get('recipients', []):
-            recipients.append({k: str(v) if isinstance(v, int) else v for k, v in r.items()})
+            recipients.append({'N': str(r['N']), 'c': str(r['ciphertext'])})
         return {
             "message": str(result['message']),
-            "recovered": str(result['recovered']),
+            "recovered": str(result['recovered_message']),
             "attack_succeeded": result['attack_succeeded'],
             "recipients": recipients
         }

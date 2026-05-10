@@ -1,7 +1,12 @@
 """PA#15 API routes — Digital Signatures."""
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+from crypto.pa08_dlp_hash import DLPHash
+
 router = APIRouter()
+
+# Shared hasher so sign and verify use the same DLP params within a session
+_shared_hasher = DLPHash(bits=64)
 
 
 class SignRequest(BaseModel):
@@ -20,13 +25,13 @@ class VerifyRequest(BaseModel):
 def sign(req: SignRequest):
     try:
         from crypto.pa15_signatures import RSASignatureScheme
-        scheme = RSASignatureScheme(rsa_bits=req.rsa_bits)
+        scheme = RSASignatureScheme(rsa_bits=req.rsa_bits, hasher=_shared_hasher)
         msg = bytes.fromhex(req.message_hex)
         sigma = scheme.sign(msg)
-        pk = scheme.rsa.public_key()
+        pk = scheme.kp.public_key()
         return {
             "signature": str(sigma),
-            "public_key": {"n": str(pk['n']), "e": pk['e']}
+            "public_key": {"n": str(pk[0]), "e": pk[1]}
         }
     except Exception as e:
         raise HTTPException(400, str(e))
@@ -36,11 +41,9 @@ def sign(req: SignRequest):
 def verify(req: VerifyRequest):
     try:
         from crypto.pa15_signatures import RSASignatureScheme
-        # Create scheme, inject public key
-        scheme = RSASignatureScheme(rsa_bits=512)
-        # Override rsa key's n and e for verification
-        scheme.rsa.n = int(req.n)
-        scheme.rsa.e = req.e
+        scheme = RSASignatureScheme(rsa_bits=512, hasher=_shared_hasher)
+        scheme.kp.n = int(req.n)
+        scheme.kp.e = req.e
         msg = bytes.fromhex(req.message_hex)
         sigma = int(req.signature)
         valid = scheme.verify(msg, sigma)

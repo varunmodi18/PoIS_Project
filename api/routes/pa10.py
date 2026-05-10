@@ -50,12 +50,7 @@ def verify_hmac(req: HMACVerifyRequest):
 def length_extension_demo(req: LengthExtRequest):
     try:
         from crypto.pa10_hmac import HMAC, length_extension_attack_demo
-        from crypto.utils import random_bytes
-        hmac = HMAC(dlp_bits=64)
-        key = random_bytes(hmac.block_size)
-        m = b"original_message"
-        suffix = bytes.fromhex(req.suffix_hex) if req.suffix_hex else b"_appended"
-        result = length_extension_attack_demo(hmac, key, m, suffix)
+        result = length_extension_attack_demo()
         return result
     except Exception as e:
         raise HTTPException(400, str(e))

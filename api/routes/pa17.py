@@ -63,7 +63,7 @@ def tamper_demo(req: TamperDemoRequest):
             cca_result = {"blocked": True, "error": str(ex)}
 
         # Plain ElGamal: allows tamper
-        eg_kp = scheme.elgamal.kp
+        eg_kp = scheme.elgamal
         eg_pk = eg_kp.public_key()
         eg_sk = eg_kp.private_key()
         eg_c1, eg_c2 = elgamal_encrypt(eg_pk, m)
