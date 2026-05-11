@@ -1,8 +1,15 @@
 # CS8.401: Principles of Information Security — Programming Assignments
 
 ## Student Information
-- **Name:** Varun
-- **Roll Number:** 2025202040
+
+| Name | Roll Number | Email |
+|------|-------------|-------|
+| Varun Modi | 2025202040 | varun.modi@students.iiit.ac.in |
+| Anurag Kukreti | 2025202041 | anurag.kukreti@students.iiit.ac.in |
+| Lalithamsh K | 2025202039 | lalithamsh.karichedu@students.iiit.ac.in |
+| Giridharan P | 2025201030 | giridharan.p@students.iiit.ac.in |
+| Gokul C | 2025201042 | gokul.c@students.iiit.ac.in |
+
 - **Program:** M.Tech CSE (Information Security), IIIT Hyderabad
 
 ## Project Structure
